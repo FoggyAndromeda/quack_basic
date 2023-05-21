@@ -166,6 +166,7 @@ class Tokenizer:
         while self.is_alpha_or_digit(self.peek()):
             self.advance()
         kwrd = self.src[self.start: self.current]
+        kwrd = kwrd.lower()
         result = TokenType.IDENTIFIER
         if kwrd in string_to_token:
             result = string_to_token[kwrd]

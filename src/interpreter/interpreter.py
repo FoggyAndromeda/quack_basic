@@ -1,4 +1,5 @@
 import tokenizer.tokenizer as tokenizer
+import customparser.parser as parser
 
 
 class Interpreter:
@@ -23,5 +24,11 @@ class Interpreter:
         tkn = tokenizer.Tokenizer(src)
         tokens = tkn.to_tokens()
 
-        for t in tokens:
-            print(t)
+        prs = parser.Parser(tokens)
+        expression = prs.parse()
+
+        if expression == None:
+            return
+
+        for exp in expression:
+            print(exp)

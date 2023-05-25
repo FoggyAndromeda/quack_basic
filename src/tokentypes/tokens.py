@@ -7,7 +7,8 @@ TokenType = Enum(
     AND IF OR PRINT INPUT RETURN TRUE FALSE ELSE \
     STRING NUMBER\
     IDENTIFIER\
-    FOR WHILE RETURN PRINT FUNCTION NEXT CONST CALL\
+    FOR WHILE FUNCTION NEXT CONST CALL\
+    NULL\
     EOF"
 )
 # TODO: write more tokens (list: https://www.qbasic.net/en/reference/qb11/overview.htm)

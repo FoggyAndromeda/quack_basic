@@ -12,7 +12,7 @@ class AbstractExpression:
 
 class Binary(AbstractExpression):
 
-    def __init__(self, operator, left, right):
+    def __init__(self, operator: Token, left: AbstractExpression, right: AbstractExpression):
         self.operator = operator
         self.left = left
         self.right = right
@@ -23,7 +23,7 @@ class Binary(AbstractExpression):
 
 class Unary(AbstractExpression):
 
-    def __init__(self, operator, right):
+    def __init__(self, operator: Token, right: AbstractExpression):
         self.operator = operator
         self.right = right
 
@@ -40,7 +40,7 @@ class Grouping(AbstractExpression):
         visitor.visit_grouping(self)
 
 
-class literal(AbstractExpression):
+class Literal(AbstractExpression):
 
     def __init__(self, value):
         self.value = value

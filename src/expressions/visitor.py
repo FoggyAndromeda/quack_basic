@@ -23,12 +23,22 @@ class Executor(Visitor):
     def __init__(self):
         pass
 
+    def interpret(self, expr):
+        try:
+            value = self.evaluate(expr)
+            return value
+        except Exception as e:
+            print(f"Error in Executor: {e}")
+
     def visit_binary(self, expr):
 
         # TODO: type checking
 
-        left = expr.left
-        right = expr.right
+        left = self.evaluate(expr.left)
+        right = self.evaluate(expr.right)
+
+        if expr.operator.token_type == TokenType.PLUS:
+            return left + right
 
         if expr.operator.token_type == TokenType.MINUS:
             return left - right

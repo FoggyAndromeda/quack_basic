@@ -11,7 +11,7 @@ class Parser:
         try:
             return self.expression()
         except Exception as e:
-            print(e)
+            print(f"Error in Parser: {e}")
             return
 
     def expression(self):
@@ -31,7 +31,7 @@ class Parser:
 
         expr = self.term()
 
-        while self.match(TokenType.GREATER, TokenType.GRETEREQUAL, TokenType.LESS, TokenType.LESSEQUAL):
+        while self.match(TokenType.GREATER, TokenType.GREATEREQUAL, TokenType.LESS, TokenType.LESSEQUAL):
             operator = self.previous()
             right = self.term()
             expr = Binary(expr, operator, right)
@@ -49,7 +49,6 @@ class Parser:
         return expr
 
     def factor(self):
-
         expr = self.unary()
         while self.match(TokenType.SLASH, TokenType.STAR):
             operator = self.previous()

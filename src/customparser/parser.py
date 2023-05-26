@@ -10,7 +10,8 @@ class Parser:
     def parse(self):
         try:
             return self.expression()
-        except:
+        except Exception as e:
+            print(e)
             return
 
     def expression(self):
@@ -27,6 +28,7 @@ class Parser:
         return expr
 
     def comparsion(self):
+
         expr = self.term()
 
         while self.match(TokenType.GREATER, TokenType.GRETEREQUAL, TokenType.LESS, TokenType.LESSEQUAL):
@@ -47,6 +49,7 @@ class Parser:
         return expr
 
     def factor(self):
+
         expr = self.unary()
         while self.match(TokenType.SLASH, TokenType.STAR):
             operator = self.previous()
@@ -56,6 +59,7 @@ class Parser:
         return expr
 
     def unary(self):
+
         if self.match(TokenType.NOT, TokenType.MINUS):
             operator = self.previous()
             right = self.unary()
@@ -88,7 +92,7 @@ class Parser:
     def check(self, type):
         if self.at_end():
             return False
-        return self.peek().type == type
+        return self.peek().token_type == type
 
     def advance(self):
         if not self.at_end():
@@ -96,7 +100,7 @@ class Parser:
         return self.previous()
 
     def at_end(self):
-        return self.peek().type == TokenType.EOF
+        return self.peek().token_type == TokenType.EOF
 
     def peek(self):
         return self.tokens[self.current]
@@ -114,18 +118,18 @@ class Parser:
         self.advance()
 
         while not self.at_end():
-            if self.previous().type == TokenType.SEMICOLON:
+            if self.previous().token_type == TokenType.SEMICOLON:
                 return
 
-            if self.peek().type == TokenType.FOR:
+            if self.peek().token_type == TokenType.FOR:
                 pass
-            if self.peek().type == TokenType.WHILE:
+            if self.peek().token_type == TokenType.WHILE:
                 pass
-            if self.peek().type == TokenType.IF:
+            if self.peek().token_type == TokenType.IF:
                 pass
-            if self.peek().type == TokenType.PRINT:
+            if self.peek().token_type == TokenType.PRINT:
                 pass
-            if self.peek().type == TokenType.RETURN:
+            if self.peek().token_type == TokenType.RETURN:
                 return
 
             self.advance()

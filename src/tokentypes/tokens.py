@@ -3,7 +3,7 @@ from enum import Enum
 TokenType = Enum(
     "TokenType",
     "COMMA DOT MINUS PLUS STAR SLASH SEMICOLON LEFTPARENT RIGHTPARENT LEFTCURLY RIGHTCURLY LEFTSQUARE RIGHTSQUARE LESS GREATER EQUAL NOT \
-    LESSEQUAL GRETEREQUAL EQUALEQUAL NOTEQUAL \
+    LESSEQUAL GREATEREQUAL EQUALEQUAL NOTEQUAL \
     AND IF OR PRINT INPUT RETURN TRUE FALSE ELSE \
     STRING NUMBER\
     IDENTIFIER\
@@ -40,4 +40,4 @@ class Token:
             return self.token_type.name
         if (self.literal == None):
             return self.token_type.name
-        return self.token_type.name + " " + self.lexeme + " " + self.literal
+        return self.token_type.name + " " + str(self.lexeme) + " " + str(self.literal)

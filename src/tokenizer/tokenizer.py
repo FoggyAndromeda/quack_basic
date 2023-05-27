@@ -1,4 +1,4 @@
-from tokentypes.tokens import Token, TokenType, string_to_token
+from src.tokentypes.tokens import Token, TokenType, string_to_token
 
 
 class Tokenizer:
@@ -98,6 +98,7 @@ class Tokenizer:
 
         if self.is_alpha(c):
             self.read_keyword()
+            return
 
         raise SyntaxError(f"Syntax Error in line {self.line}")
 

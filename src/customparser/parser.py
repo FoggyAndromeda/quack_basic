@@ -59,7 +59,7 @@ class Parser:
 
     def unary(self):
 
-        if self.match(TokenType.NOT, TokenType.MINUS):
+        if self.match(TokenType.NOT, TokenType.MINUS, TokenType.PRINT):
             operator = self.previous()
             right = self.unary()
             return Unary(operator, right)

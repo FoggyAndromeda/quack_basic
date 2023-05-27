@@ -11,8 +11,8 @@ class Interpreter:
     def run_file(self, path: str):
         try:
             file = open(path)
-            src = '\n'.join(file.readlines())
-            self.run(src)
+            for line in file:
+                self.run(line)
         except FileNotFoundError as e:
             print(f"Error in Interpreter: File {path} doesn't exist\n{e}")
         except Exception as e:
@@ -25,14 +25,13 @@ class Interpreter:
         tkn = tokenizer.Tokenizer(src)
         tokens = tkn.to_tokens()
 
-        for t in tokens:
-            print(t)
+        # for t in tokens:
+        #     print(t)
 
         prs = parser.Parser(tokens)
         expression = prs.parse()
 
         if expression == None:
-            print("Expression is None")
             return
 
         self.executor.interpret(expression)

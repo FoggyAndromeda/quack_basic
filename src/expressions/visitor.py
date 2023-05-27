@@ -67,13 +67,17 @@ class Executor(Visitor):
         return None
 
     def visit_unary(self, expr):
-        right = expr.right
+        right = self.evaluate(expr.right)
 
         if expr.operator.token_type == TokenType.MINUS:
             return -right
 
         if expr.operator.token_type == TokenType.NOT:
             return not self.is_truth(right)
+
+        if expr.operator.token_type == TokenType.PRINT:
+            print(right)
+            return None
 
         return None
 

@@ -8,6 +8,7 @@ TokenType = Enum(
     STRING NUMBER\
     IDENTIFIER\
     FOR WHILE FUNCTION NEXT CONST CALL\
+    NEWLINE\
     NULL\
     EOF"
 )

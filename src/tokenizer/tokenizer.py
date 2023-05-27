@@ -31,6 +31,7 @@ class Tokenizer:
             return
         if c == '\n':
             self.line += 1
+            self.add_token(TokenType.NEWLINE)
             return
 
         # reading comments
@@ -98,6 +99,7 @@ class Tokenizer:
 
         if self.is_alpha(c):
             self.read_keyword()
+            return
 
         raise SyntaxError(f"Syntax Error in line {self.line}")
 

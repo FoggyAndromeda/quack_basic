@@ -1,2 +1,5 @@
+from interpreter.interpreter import Interpreter
+
 if __name__ == "__main__":
-    pass
+    intp = Interpreter()
+    intp.run_file("../temp/temp.txt")

@@ -1,4 +1,4 @@
-from tokentypes.tokens import TokenType
+from src.tokentypes.tokens import TokenType
 
 
 class Visitor:

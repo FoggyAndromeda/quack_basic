@@ -1,5 +1,5 @@
-from tokenizer.tokenizer import TokenType, Token
-from expressions.expressions import *
+from src.tokenizer.tokenizer import TokenType, Token
+from src.expressions.expressions import *
 
 
 class Parser:

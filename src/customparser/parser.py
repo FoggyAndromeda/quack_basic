@@ -1,5 +1,6 @@
 from tokenizer.tokenizer import TokenType, Token
 from expressions.expressions import *
+from expressions.statements import *
 
 
 class Parser:
@@ -9,13 +10,40 @@ class Parser:
 
     def parse(self):
         try:
-            return self.expression()
+            statements = []
+            while not self.at_end():
+                statements.append(self.statement())
+            return statements
         except Exception as e:
             print(f"Error in Parser: {e}")
             return
 
+    def statement(self):
+        if self.match(TokenType.PRINT):
+            return self.print_statement()
+        return self.expression_statement()
+
+    def print_statement(self):
+        value = self.expression()
+        self.consume(TokenType.NEWLINE, "Expected new line after value")
+        return PrintStatement(value)
+
+    def expression_statement(self):
+        value = self.expression()
+        self.consume(TokenType.NEWLINE, "Expected new line after expression")
+        return Expression(value)
+
     def expression(self):
-        return self.equality()
+        return self.assignment()
+
+    def assignment(self):
+        expr = self.equality()
+
+        if self.match(TokenType.EQUAL):
+            var = self.previous()
+            value = self.assignment()
+
+        return expr
 
     def equality(self):
         expr = self.comparsion()

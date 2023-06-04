@@ -29,6 +29,8 @@ class Tokenizer:
         # simply skipping all kind of spaces
         if c == ' ' or c == '\t' or c == '\r':
             return
+
+        # newline
         if c == '\n':
             self.line += 1
             self.add_token(TokenType.NEWLINE)
@@ -38,6 +40,7 @@ class Tokenizer:
         if c == '\'':
             while self.peek() != '\n':
                 self.advance()
+            return
 
         if c == '(':
             self.add_token(TokenType.LEFTPARENT)

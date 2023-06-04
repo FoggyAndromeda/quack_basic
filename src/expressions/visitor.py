@@ -1,4 +1,5 @@
 from tokentypes.tokens import TokenType
+from environment.environment import Environment
 
 
 class Visitor:
@@ -17,11 +18,17 @@ class Visitor:
     def visit_literal(self, expr):
         pass
 
+    def visit_assignment(self, expr):
+        pass
+
+    def visit_variable(self, expr):
+        pass
+
 
 class Executor(Visitor):
 
     def __init__(self):
-        pass
+        self.env = Environment()
 
     def interpret(self, expr):
         try:
@@ -29,6 +36,10 @@ class Executor(Visitor):
             return value
         except Exception as e:
             print(f"Error in Executor: {e}")
+
+    def evaluate(self, expr):
+        if not expr is None:
+            return expr.accept(self)
 
     def visit_binary(self, expr):
 
@@ -75,9 +86,9 @@ class Executor(Visitor):
         if expr.operator.token_type == TokenType.NOT:
             return not self.is_truth(right)
 
-        if expr.operator.token_type == TokenType.PRINT:
-            print(right)
-            return None
+        # if expr.operator.token_type == TokenType.PRINT:
+        #     print(right)
+        #     return None
 
         return None
 
@@ -87,8 +98,25 @@ class Executor(Visitor):
     def visit_literal(self, expr):
         return expr.value
 
-    def evaluate(self, expr):
-        return expr.accept(self)
-
     def is_truth(self, obj):
         return bool(obj)
+
+    def visit_assignment(self, expr):
+        if self.env.check_variable_existance(expr.name):
+            self.env.create_variable(expr.name, expr.value)
+        else:
+            self.env.change_variable(expr.name, expr.value)
+        return self.env.get_variable(expr.name)
+
+    def visit_variable(self, expr):
+        if self.env.check_variable_existance(expr.name):
+            return self.env.get_variable(expr.name)
+
+    def visit_print(self, statement):
+        value = self.evaluate(statement.expr)
+        print(value)
+        return None
+
+    def visit_expression(self, statement):
+        self.evaluate(statement.expr)
+        return None

@@ -175,4 +175,6 @@ class Tokenizer:
         result = TokenType.IDENTIFIER
         if kwrd in string_to_token:
             result = string_to_token[kwrd]
-        self.add_token(result)
+            self.add_token(result)
+        else:
+            self.add_token(result, kwrd)

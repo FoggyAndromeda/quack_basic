@@ -48,3 +48,22 @@ class Literal(AbstractExpression):
 
     def accept(self, visitor):
         return visitor.visit_literal(self)
+
+
+class Assign(AbstractExpression):
+
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+    def accept(self, visitor):
+        return visitor.visit_assignation(self)
+
+
+class Variable(AbstractExpression):
+
+    def __init__(self, name):
+        self.name = name
+
+    def accept(self, visitor):
+        return visitor.visit_variable(self)

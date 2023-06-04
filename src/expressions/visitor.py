@@ -109,8 +109,9 @@ class Executor(Visitor):
         return self.env.get_variable(expr.name)
 
     def visit_variable(self, expr):
-        if self.env.check_variable_existance(expr.name):
-            return self.env.get_variable(expr.name)
+        var_name = expr.name.lexeme
+        if self.env.check_variable_existance(var_name):
+            return self.env.get_variable(var_name)
 
     def visit_print(self, statement):
         value = self.evaluate(statement.expr)
@@ -120,3 +121,11 @@ class Executor(Visitor):
     def visit_expression(self, statement):
         self.evaluate(statement.expr)
         return None
+
+    def visit_assignation(self, expr):
+        variable_name = expr.name.lexeme
+        value = expr.value.value
+        if self.env.check_variable_existance(variable_name):
+            self.env.change_variable(variable_name, value)
+        else:
+            self.env.create_variable(variable_name, value)

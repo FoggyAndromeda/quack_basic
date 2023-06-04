@@ -43,6 +43,11 @@ class Parser:
             var = self.previous()
             value = self.assignment()
 
+            if isinstance(expr, Variable):
+                return Assign(expr.name, value)
+
+            raise (f"Wrong target for assignment: {var}")
+
         return expr
 
     def equality(self):
@@ -108,6 +113,9 @@ class Parser:
             expr = self.expression()
             self.consume(TokenType.RIGHTPARENT, "Expected \')\'")
             return Grouping(expr)
+
+        if self.match(TokenType.IDENTIFIER):
+            return Variable(self.previous())
 
     def match(self, *types):
         for type in types:

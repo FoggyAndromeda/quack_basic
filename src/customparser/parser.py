@@ -21,12 +21,33 @@ class Parser:
     def statement(self):
         if self.match(TokenType.PRINT):
             return self.print_statement()
+        if self.match(TokenType.IF):
+            return self.if_statement()
         return self.expression_statement()
 
     def print_statement(self):
         value = self.expression()
         self.consume(TokenType.NEWLINE, "Expected new line after value")
         return PrintStatement(value)
+
+    def if_statement(self):
+        self.consume(TokenType.LEFTPARENT, "Expected ( after IF")
+        condition = self.expression()
+        self.consume(TokenType.RIGHTPARENT, "Expected ) after condition")
+
+        while self.peek().token_type == TokenType.NEWLINE:
+            self.advance()
+
+        self.consume(TokenType.THEN, "Expected THEN after IF")
+        thenbranch = self.statement()
+        elsebranch = None
+
+        while self.peek().token_type == TokenType.NEWLINE:
+            self.advance()
+
+        if self.match(TokenType.ELSE):
+            elsebranch = self.statement()
+        return IfStatement(condition, thenbranch, elsebranch)
 
     def expression_statement(self):
         value = self.expression()

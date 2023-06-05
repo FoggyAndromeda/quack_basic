@@ -23,3 +23,14 @@ class PrintStatement(AbstractStatement):
 
     def accept(self, visitor):
         visitor.visit_print(self)
+
+
+class IfStatement(AbstractStatement):
+
+    def __init__(self, condition, thenbranch, elsebranch):
+        self.condition = condition
+        self.thenbranch = thenbranch
+        self.elsebranch = elsebranch
+
+    def accept(self, visitor):
+        visitor.visit_if(self)

@@ -86,10 +86,6 @@ class Executor(Visitor):
         if expr.operator.token_type == TokenType.NOT:
             return not self.is_truth(right)
 
-        # if expr.operator.token_type == TokenType.PRINT:
-        #     print(right)
-        #     return None
-
         return None
 
     def visit_grouping(self, expr):
@@ -99,7 +95,7 @@ class Executor(Visitor):
         return expr.value
 
     def is_truth(self, obj):
-        return bool(obj)
+        return bool(self.evaluate(obj))
 
     def visit_assignment(self, expr):
         if self.env.check_variable_existance(expr.name):
@@ -129,3 +125,9 @@ class Executor(Visitor):
             self.env.change_variable(variable_name, value)
         else:
             self.env.create_variable(variable_name, value)
+
+    def visit_if(self, statement):
+        if self.is_truth(statement.condition):
+            self.evaluate(statement.thenbranch)
+        elif not statement.elsebranch is None:
+            self.evaluate(statement.elsebranch)

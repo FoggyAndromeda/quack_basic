@@ -23,6 +23,8 @@ class Parser:
             return self.print_statement()
         if self.match(TokenType.IF):
             return self.if_statement()
+        if self.match(TokenType.WHILE):
+            return self.while_statement()
         return self.expression_statement()
 
     def print_statement(self):
@@ -48,6 +50,18 @@ class Parser:
         if self.match(TokenType.ELSE):
             elsebranch = self.statement()
         return IfStatement(condition, thenbranch, elsebranch)
+
+    def while_statement(self):
+        self.consume(TokenType.LEFTPARENT, "Expected ( after IF")
+        condition = self.expression()
+        self.consume(TokenType.RIGHTPARENT, "Expected ) after condition")
+
+        body = []
+        while not self.at_end() and self.peek().token_type != TokenType.WEND:
+            body.append(self.statement())
+
+        self.consume(TokenType.WEND, "Expected WEND after WHILE statement")
+        return WhileStatement(condition, body)
 
     def expression_statement(self):
         value = self.expression()

@@ -120,7 +120,7 @@ class Executor(Visitor):
 
     def visit_assignation(self, expr):
         variable_name = expr.name.lexeme
-        value = expr.value.value
+        value = self.evaluate(expr.value)
         if self.env.check_variable_existance(variable_name):
             self.env.change_variable(variable_name, value)
         else:
@@ -131,3 +131,8 @@ class Executor(Visitor):
             self.evaluate(statement.thenbranch)
         elif not statement.elsebranch is None:
             self.evaluate(statement.elsebranch)
+
+    def visit_while(self, statement):
+        while self.is_truth(statement.condition):
+            for stmnt in statement.body:
+                self.evaluate(stmnt)

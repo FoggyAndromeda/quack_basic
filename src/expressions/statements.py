@@ -34,3 +34,13 @@ class IfStatement(AbstractStatement):
 
     def accept(self, visitor):
         visitor.visit_if(self)
+
+
+class WhileStatement(AbstractStatement):
+
+    def __init__(self, condition, body):
+        self.condition = condition
+        self.body = body
+
+    def accept(self, visitor):
+        visitor.visit_while(self)

@@ -7,7 +7,8 @@ TokenType = Enum(
     AND IF OR PRINT INPUT RETURN TRUE FALSE ELSE THEN\
     STRING NUMBER\
     IDENTIFIER\
-    FOR WHILE FUNCTION NEXT CONST CALL\
+    FOR FUNCTION NEXT CONST CALL\
+    WHILE WEND\
     NEWLINE\
     NULL\
     EOF"
@@ -24,6 +25,7 @@ string_to_token = {
 
     "for": TokenType.FOR,
     "while": TokenType.WHILE,
+    "wend": TokenType.WEND,
 
     "function": TokenType.FUNCTION,
     "return": TokenType.RETURN,

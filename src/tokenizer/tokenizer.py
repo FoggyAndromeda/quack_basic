@@ -29,14 +29,18 @@ class Tokenizer:
         # simply skipping all kind of spaces
         if c == ' ' or c == '\t' or c == '\r':
             return
+
+        # newline
         if c == '\n':
             self.line += 1
+            self.add_token(TokenType.NEWLINE)
             return
 
         # reading comments
         if c == '\'':
             while self.peek() != '\n':
                 self.advance()
+            return
 
         if c == '(':
             self.add_token(TokenType.LEFTPARENT)
@@ -171,4 +175,6 @@ class Tokenizer:
         result = TokenType.IDENTIFIER
         if kwrd in string_to_token:
             result = string_to_token[kwrd]
-        self.add_token(result)
+            self.add_token(result)
+        else:
+            self.add_token(result, kwrd)

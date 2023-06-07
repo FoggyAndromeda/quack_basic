@@ -4,10 +4,12 @@ TokenType = Enum(
     "TokenType",
     "COMMA DOT MINUS PLUS STAR SLASH SEMICOLON LEFTPARENT RIGHTPARENT LEFTCURLY RIGHTCURLY LEFTSQUARE RIGHTSQUARE LESS GREATER EQUAL NOT \
     LESSEQUAL GREATEREQUAL EQUALEQUAL NOTEQUAL \
-    AND IF OR PRINT INPUT RETURN TRUE FALSE ELSE \
+    AND IF OR PRINT INPUT RETURN TRUE FALSE ELSE THEN\
     STRING NUMBER\
     IDENTIFIER\
-    FOR WHILE FUNCTION NEXT CONST CALL\
+    FOR FUNCTION NEXT CONST CALL\
+    WHILE WEND\
+    NEWLINE\
     NULL\
     EOF"
 )
@@ -15,11 +17,19 @@ TokenType = Enum(
 
 # TODO: I belive, that I absolutely shouldn't do this but for now it's ok. I'll replace it later
 string_to_token = {
+    "print": TokenType.PRINT,
+
+    "if": TokenType.IF,
+    "then": TokenType.THEN,
+    "else": TokenType.ELSE,
+
     "for": TokenType.FOR,
     "while": TokenType.WHILE,
-    "return": TokenType.RETURN,
-    "print": TokenType.PRINT,
+    "wend": TokenType.WEND,
+
     "function": TokenType.FUNCTION,
+    "return": TokenType.RETURN,
+
     "next": TokenType.NEXT,
     "const": TokenType.CONST,
     "call": TokenType.CALL

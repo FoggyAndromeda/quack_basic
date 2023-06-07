@@ -1,5 +1,6 @@
-from src.tokenizer.tokenizer import TokenType, Token
-from src.expressions.expressions import *
+from tokenizer.tokenizer import TokenType, Token
+from expressions.expressions import *
+from expressions.statements import *
 
 
 class Parser:
@@ -9,13 +10,80 @@ class Parser:
 
     def parse(self):
         try:
-            return self.expression()
+            statements = []
+            while not self.at_end():
+                statements.append(self.statement())
+            return statements
         except Exception as e:
             print(f"Error in Parser: {e}")
             return
 
+    def statement(self):
+        if self.match(TokenType.PRINT):
+            return self.print_statement()
+        if self.match(TokenType.IF):
+            return self.if_statement()
+        if self.match(TokenType.WHILE):
+            return self.while_statement()
+        return self.expression_statement()
+
+    def print_statement(self):
+        value = self.expression()
+        self.consume(TokenType.NEWLINE, "Expected new line after value")
+        return PrintStatement(value)
+
+    def if_statement(self):
+        self.consume(TokenType.LEFTPARENT, "Expected ( after IF")
+        condition = self.expression()
+        self.consume(TokenType.RIGHTPARENT, "Expected ) after condition")
+
+        while self.peek().token_type == TokenType.NEWLINE:
+            self.advance()
+
+        self.consume(TokenType.THEN, "Expected THEN after IF")
+        thenbranch = self.statement()
+        elsebranch = None
+
+        while self.peek().token_type == TokenType.NEWLINE:
+            self.advance()
+
+        if self.match(TokenType.ELSE):
+            elsebranch = self.statement()
+        return IfStatement(condition, thenbranch, elsebranch)
+
+    def while_statement(self):
+        self.consume(TokenType.LEFTPARENT, "Expected ( after IF")
+        condition = self.expression()
+        self.consume(TokenType.RIGHTPARENT, "Expected ) after condition")
+
+        body = []
+        while not self.at_end() and self.peek().token_type != TokenType.WEND:
+            body.append(self.statement())
+
+        self.consume(TokenType.WEND, "Expected WEND after WHILE statement")
+        return WhileStatement(condition, body)
+
+    def expression_statement(self):
+        value = self.expression()
+        self.consume(TokenType.NEWLINE, "Expected new line after expression")
+        return Expression(value)
+
     def expression(self):
-        return self.equality()
+        return self.assignment()
+
+    def assignment(self):
+        expr = self.equality()
+
+        if self.match(TokenType.EQUAL):
+            var = self.previous()
+            value = self.assignment()
+
+            if isinstance(expr, Variable):
+                return Assign(expr.name, value)
+
+            raise (f"Wrong target for assignment: {var}")
+
+        return expr
 
     def equality(self):
         expr = self.comparsion()
@@ -59,7 +127,7 @@ class Parser:
 
     def unary(self):
 
-        if self.match(TokenType.NOT, TokenType.MINUS):
+        if self.match(TokenType.NOT, TokenType.MINUS, TokenType.PRINT):
             operator = self.previous()
             right = self.unary()
             return Unary(operator, right)
@@ -80,6 +148,9 @@ class Parser:
             expr = self.expression()
             self.consume(TokenType.RIGHTPARENT, "Expected \')\'")
             return Grouping(expr)
+
+        if self.match(TokenType.IDENTIFIER):
+            return Variable(self.previous())
 
     def match(self, *types):
         for type in types:

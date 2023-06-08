@@ -48,9 +48,12 @@ GUI by Aleksandr Savinov"""
         ttk.Label(self.mainframe, text='Code:', justify='left',
                   width=10).grid(row=0, column=0, sticky=(W))
         self.code.grid(row=1, column=0, sticky=(N, W, E, S))
+
         self.code.bind("<KeyPress-Return>", self.check)
         self.code.bind("<KeyPress>", self.setstate)
         self.root.bind("<KeyPress-F5>", self.run)
+        self.root.bind("<Control-Q>", self.quit)
+        self.root.bind("<Control-q>", self.quit)
 
         self.output.config(state="normal")
         self.output.config(state="disabled")
@@ -173,7 +176,7 @@ GUI by Aleksandr Savinov"""
             messagebox.showerror(
                 "Syntax error", "There is a mistake in line {}".format(x))
 
-    def quit(self):
+    def quit(self, event=None):
         self.savefile()
         self.root.destroy()
 

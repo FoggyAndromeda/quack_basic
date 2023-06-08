@@ -18,7 +18,7 @@ class TestParser(unittest.TestCase):
                      """)
         bar = foo.to_tokens()
         abc = Parser(bar)
-        self.assertEqual(abc.parse()[0], (Expression(1.0)))
+        self.assertEqual(abc.parse()[0], ExpressionStatement(Literal(1.0)))
     def test_parse_string(self):
         foo = tkn("""\"aB\"
                      """)

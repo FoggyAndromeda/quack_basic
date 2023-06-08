@@ -46,6 +46,7 @@ GUI by Aleksandr Savinov"""
         self.code.grid(row=1, column=0, sticky=(N,W,E,S))
         self.code.bind("<KeyPress-Return>", self.check)
         self.code.bind("<KeyPress>", self.setstate)
+        self.root.bind("<KeyPress-F5>", self.run)
 
         self.output.config(state="normal")
         self.output.config(state="disabled")

@@ -1,6 +1,6 @@
-import tokenizer.tokenizer as tokenizer
-import customparser.parser as parser
-from expressions.visitor import Executor
+import tokenizer as tokenizer
+import parser as parser
+from visitor import Executor
 
 
 class Interpreter:

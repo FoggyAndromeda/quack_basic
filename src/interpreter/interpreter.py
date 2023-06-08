@@ -1,6 +1,6 @@
-import src.tokenizer.tokenizer as tokenizer
-import src.customparser.parser as parser
-from src.expressions.visitor import Executor
+import tokenizer.tokenizer as tokenizer
+import customparser.parser as parser
+from expressions.visitor import Executor
 
 
 class Interpreter:
@@ -36,3 +36,6 @@ class Interpreter:
 
         for exp in expression:
             self.executor.interpret(exp)
+
+    def get_buffer(self):
+        return self.executor.get_buffer()

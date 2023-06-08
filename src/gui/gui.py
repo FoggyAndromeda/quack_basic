@@ -4,12 +4,14 @@ from tkinter import font
 from tkinter import filedialog
 from tkinter import messagebox
 import os
+import tokenizer.tokenizer as tokenizer
+import interpreter.interpreter as interpreter
 
 class Editor:
-
     aboutmes="""https://github.com/FoggyAndromeda/quack_basic
 
-Made by Andrey Stoyanovski"""
+Interpreter by Andrey Stoyanovski
+GUI by Aleksandr Savinov"""
 
     file_ = None
     root = Tk()
@@ -46,7 +48,6 @@ Made by Andrey Stoyanovski"""
         self.code.bind("<KeyPress>", self.setstate)
 
         self.output.config(state="normal")
-        self.output.insert(1.0, "This is programm output")
         self.output.config(state="disabled")
         ttk.Label(self.mainframe, text='Output:', justify='left', width=10).grid(row=2, column=0, sticky=(W))
         self.output.grid(row=3, column=0, sticky=(N,W,E,S))
@@ -72,6 +73,7 @@ Made by Andrey Stoyanovski"""
         self.menubar.add_cascade(menu=self.menu_help, label="Help")
 
         self.root['menu']=self.menubar
+        self.code.focus_set()
 
     def newfile(self):
         if self.saved==False:
@@ -99,14 +101,19 @@ Made by Andrey Stoyanovski"""
         self.code.delete(1.0, END)
         self.code.insert(1.0, content.read())
         content.close()
+        self.code.focus_set()
+        self.code.mark_set(INSERT, 1.0)
 
     def savefile(self):
         if self.file_==None:
             self.file_ = filedialog.asksaveasfilename(initialfile='NewCode.BAS', defaultextension=".BAS", filetypes = [("All Files", "*.*"), ("QBASIC code", "*.BAS")])
-            self.root.title("QBASIC code editor - "+os.path.basename(self.file_))
-            dest = open(self.file_, "w")
-            dest.write(self.code.get(1.0, END))
-            dest.close()
+            if self.file_!='':
+                self.root.title("QBASIC code editor - "+os.path.basename(self.file_))
+                dest = open(self.file_, "w")
+                dest.write(self.code.get(1.0, END))
+                dest.close()
+            else:
+                self.file_ = None
         else:
             dest = open(self.file_, "w")
             dest.write(self.code.get(1.0, END))
@@ -123,9 +130,13 @@ Made by Andrey Stoyanovski"""
         self.code.event_generate('<<Paste>>')
 
     def run(self):
-        #There should be the call of interpreter
+        self.savefile()
+        interinstance=interpreter.Interpreter()
+        interinstance.run_file(self.file_)
+        output=interinstance.get_buffer()
+        output="\n".join(output)+"\n--END OF PROGRAMM--"
         self.output.config(state="normal")
-        #Inserting result here
+        self.output.insert(END, output)
         self.output.config(state="disabled")
         self.output.see("end")
 
@@ -151,5 +162,6 @@ Made by Andrey Stoyanovski"""
     def about(self):
         messagebox.showinfo("QBASIC code editor", self.aboutmes)
 
-instance=Editor()
-instance.launch()
+if __name__=="__main__":
+    instance=Editor()
+    instance.launch()

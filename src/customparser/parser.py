@@ -127,7 +127,7 @@ class Parser:
 
     def unary(self):
 
-        if self.match(TokenType.NOT, TokenType.MINUS, TokenType.PRINT):
+        if self.match(TokenType.NOT, TokenType.MINUS):
             operator = self.previous()
             right = self.unary()
             return Unary(operator, right)

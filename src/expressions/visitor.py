@@ -29,6 +29,7 @@ class Executor(Visitor):
 
     def __init__(self):
         self.env = Environment()
+        self.output_buffer = []
 
     def interpret(self, expr):
         try:
@@ -111,7 +112,7 @@ class Executor(Visitor):
 
     def visit_print(self, statement):
         value = self.evaluate(statement.expr)
-        print(value)
+        self.output_buffer.append(str(value))
         return None
 
     def visit_expression(self, statement):
@@ -136,3 +137,6 @@ class Executor(Visitor):
         while self.is_truth(statement.condition):
             for stmnt in statement.body:
                 self.evaluate(stmnt)
+
+    def get_buffer(self):
+        return self.output_buffer

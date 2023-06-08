@@ -143,17 +143,17 @@ GUI by Aleksandr Savinov"""
     def setstate(self, event):
         self.saved=False
 
-    #Проверка синтаксиса строки
     def check(self, event):
         x,y=map(int, event.widget.index(INSERT).split("."))
         line = event.widget.get("{}.0".format(x), "{}.{}".format(x,y))
         try: 
-            #There should be called a tokenizer, accepting the line
-            pass
+            instoken=tokenizer.Tokenizer(line)
+            print(instoken.to_tokens())
         except:
             messagebox.showerror("Syntax error", "There is a mistake in line {}".format(x))
 
     def quit(self):
+        self.savefile()
         self.root.destroy()
 
     def launch(self):

@@ -15,8 +15,7 @@ class Parser:
                 statements.append(self.statement())
             return statements
         except Exception as e:
-            print(f"Error in Parser: {e}")
-            return
+            raise Exception(f"Error while parsing: {e}")
 
     def statement(self):
         if self.match(TokenType.PRINT):
@@ -28,7 +27,10 @@ class Parser:
         return self.expression_statement()
 
     def print_statement(self):
-        value = self.expression()
+        value = [self.expression()]
+        while self.peek().token_type == TokenType.SEMICOLON:
+            self.advance()
+            value.append(self.expression())
         self.consume(TokenType.NEWLINE, "Expected new line after value")
         return PrintStatement(value)
 
@@ -41,6 +43,10 @@ class Parser:
             self.advance()
 
         self.consume(TokenType.THEN, "Expected THEN after IF")
+
+        while self.peek().token_type == TokenType.NEWLINE:
+            self.advance()
+
         thenbranch = self.statement()
         elsebranch = None
 
@@ -48,6 +54,8 @@ class Parser:
             self.advance()
 
         if self.match(TokenType.ELSE):
+            while self.peek().token_type == TokenType.NEWLINE:
+                self.advance()
             elsebranch = self.statement()
         return IfStatement(condition, thenbranch, elsebranch)
 
@@ -66,7 +74,7 @@ class Parser:
     def expression_statement(self):
         value = self.expression()
         self.consume(TokenType.NEWLINE, "Expected new line after expression")
-        return Expression(value)
+        return ExpressionStatement(value)
 
     def expression(self):
         return self.assignment()

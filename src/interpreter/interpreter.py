@@ -14,9 +14,9 @@ class Interpreter:
             source = ''.join(file.readlines()) + '\n'
             self.run(source)
         except FileNotFoundError as e:
-            print(f"Error in Interpreter: File {path} doesn't exist\n{e}")
+            raise e
         except Exception as e:
-            print(f"Error in Interpreter: {e}")
+            raise Exception(f"Error in Interpreter: {e}")
 
     def run_repl(self):
         pass

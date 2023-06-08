@@ -75,6 +75,9 @@ class Tokenizer:
         if c == '.':
             self.add_token(TokenType.DOT)
             return
+        if c == ',':
+            self.add_token(TokenType.COMMA)
+            return
         if c == '/':
             self.add_token(TokenType.SLASH)
             return

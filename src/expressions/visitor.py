@@ -36,7 +36,7 @@ class Executor(Visitor):
             value = self.evaluate(expr)
             return value
         except Exception as e:
-            print(f"Error in Executor: {e}")
+            raise Exception(f"Error while executing: {e}")
 
     def evaluate(self, expr):
         if not expr is None:
@@ -111,8 +111,11 @@ class Executor(Visitor):
             return self.env.get_variable(var_name)
 
     def visit_print(self, statement):
-        value = self.evaluate(statement.expr)
-        self.output_buffer.append(str(value))
+        result = ""
+        for stmnt in statement.expr:
+            value = self.evaluate(stmnt)
+            result += str(value) + ' '
+        self.output_buffer.append(result)
         return None
 
     def visit_expression(self, statement):

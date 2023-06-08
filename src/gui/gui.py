@@ -33,6 +33,7 @@ GUI by Aleksandr Savinov"""
     menu_edit = Menu(menubar)
     menu_run = Menu(menubar)
     menu_help = Menu(menubar)
+    menu_view = Menu(menubar)
     saved = True
 
     def __init__(self):
@@ -76,6 +77,9 @@ GUI by Aleksandr Savinov"""
 
         self.menu_help.add_command(label="About", command=self.about)
         self.menubar.add_cascade(menu=self.menu_help, label="Help")
+
+        self.menu_view.add_command(label="Clear output", command=self.clear_output)
+        self.menubar.add_cascade(menu=self.menu_view, label="View")
 
         self.root['menu'] = self.menubar
         self.code.focus_set()
@@ -175,6 +179,11 @@ GUI by Aleksandr Savinov"""
 
     def launch(self):
         self.root.mainloop()
+
+    def clear_output(self):
+        self.output.config(state="normal")
+        self.output.delete(1.0, END)
+        self.output.config(state="disabled")
 
     def about(self):
         messagebox.showinfo("QBASIC code editor", self.aboutmes)

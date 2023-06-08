@@ -1,4 +1,4 @@
-from tokentypes.tokens import Token, TokenType, string_to_token
+from src.tokentypes.tokens import Token, TokenType, string_to_token
 
 
 class Tokenizer:

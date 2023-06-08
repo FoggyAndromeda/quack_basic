@@ -1,8 +1,8 @@
 import unittest
-import src.tokenizer.tokenizer as tokenizer
-import src.customparser.parser as parser
-from src.expressions.visitor import Executor
-from src.interpreter.interpreter import Interpreter
+import tokenizer
+import parser
+from visitor import Executor
+from interpreter import Interpreter
 
 # TODO: rewrite as this test fails
 class TestInterpreter(unittest.TestCase):

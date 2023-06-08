@@ -1,8 +1,8 @@
 import unittest
 
-from expressions.expressions import *
-from expressions.statements import *
-from tokenizer.tokenizer import TokenType, Token, Tokenizer as tkn
+from expressions import *
+from statements import *
+from tokenizer import TokenType, Token, Tokenizer as tkn
 
 from parser import Parser
 
@@ -18,7 +18,7 @@ class TestParser(unittest.TestCase):
                      """)
         bar = foo.to_tokens()
         abc = Parser(bar)
-        self.assertEqual(abc.parse()[0], Literal('1.0'))
+        self.assertEqual(abc.parse()[0], (Literal('1.0')))
     def test_parse_string(self):
         foo = tkn("""\"aB\"
                      """)

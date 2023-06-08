@@ -139,7 +139,7 @@ GUI by Aleksandr Savinov"""
     def paste(self):
         self.code.event_generate('<<Paste>>')
 
-    def run(self):
+    def run(self, event=None):
         self.savefile()
 
         try:
@@ -150,7 +150,7 @@ GUI by Aleksandr Savinov"""
         except Exception as e:
             output = str(e)
 
-        output += "\n--END OF PROGRAMM--"
+        output += "\n--END OF PROGRAMM--\n"
         self.output.config(state="normal")
         self.output.insert(END, output)
         self.output.config(state="disabled")

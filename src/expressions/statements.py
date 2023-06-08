@@ -7,7 +7,7 @@ class AbstractStatement:
         pass
 
 
-class Expression(AbstractStatement):
+class ExpressionStatement(AbstractStatement):
 
     def __init__(self, expr):
         self.expr = expr

@@ -36,7 +36,7 @@ class Executor(Visitor):
             value = self.evaluate(expr)
             return value
         except Exception as e:
-            print(f"Error in Executor: {e}")
+            raise Exception(f"Error while executing: {e}")
 
     def evaluate(self, expr):
         if not expr is None:

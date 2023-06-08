@@ -15,8 +15,7 @@ class Parser:
                 statements.append(self.statement())
             return statements
         except Exception as e:
-            print(f"Error in Parser: {e}")
-            return
+            raise Exception(f"Error while parsing: {e}")
 
     def statement(self):
         if self.match(TokenType.PRINT):
@@ -75,7 +74,7 @@ class Parser:
     def expression_statement(self):
         value = self.expression()
         self.consume(TokenType.NEWLINE, "Expected new line after expression")
-        return Expression(value)
+        return ExpressionStatement(value)
 
     def expression(self):
         return self.assignment()

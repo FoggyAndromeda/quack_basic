@@ -1,4 +1,4 @@
-from tokentypes.tokens import Token
+from src.tokentypes.tokens import Token
 
 
 class AbstractExpression:

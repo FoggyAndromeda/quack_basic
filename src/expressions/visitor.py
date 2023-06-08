@@ -1,5 +1,5 @@
-from tokentypes.tokens import TokenType
-from environment.environment import Environment
+from src.tokentypes.tokens import TokenType
+from src.environment.environment import Environment
 
 
 class Visitor:

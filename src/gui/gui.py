@@ -148,7 +148,7 @@ GUI by Aleksandr Savinov"""
         line = event.widget.get("{}.0".format(x), "{}.{}".format(x,y))
         try: 
             instoken=tokenizer.Tokenizer(line)
-            print(instoken.to_tokens())
+            instoken.to_tokens()
         except:
             messagebox.showerror("Syntax error", "There is a mistake in line {}".format(x))
 

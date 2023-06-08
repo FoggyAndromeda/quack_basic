@@ -111,8 +111,11 @@ class Executor(Visitor):
             return self.env.get_variable(var_name)
 
     def visit_print(self, statement):
-        value = self.evaluate(statement.expr)
-        self.output_buffer.append(str(value))
+        result = ""
+        for stmnt in statement.expr:
+            value = self.evaluate(stmnt)
+            result += str(value) + ' '
+        self.output_buffer.append(result)
         return None
 
     def visit_expression(self, statement):

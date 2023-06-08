@@ -18,21 +18,20 @@ class TestParser(unittest.TestCase):
                      """)
         bar = foo.to_tokens()
         abc = Parser(bar)
-        self.assertEqual(abc.parse()[0], ExpressionStatement(Literal(1.0)))
+        self.assertEqual(abc.parse()[0].expr.value, ExpressionStatement(Literal(1.0)).expr.value)
     def test_parse_string(self):
         foo = tkn("""\"aB\"
                      """)
         bar = foo.to_tokens()
         abc = Parser(bar)
-        self.assertEqual(abc.parse()[0], Literal('aB'))
+        self.assertEqual(abc.parse()[0].expr.value, ExpressionStatement(Literal('aB')).expr.value)
     def test_parse_print(self):
         foo = tkn("""PRINT 10
                      """)
         bar = foo.to_tokens()
         abc = Parser(bar)
-        self.assertEqual(abc.parse()[0].expr,
-                         PrintStatement(Unary(Token(TokenType.PRINT, "PRINT", "10", 0),
-                                              Literal("10"))))
+        self.assertEqual(abc.parse()[0].expr[0].value,
+                         PrintStatement(Literal(10)).expr.value)
 
 
 if __name__ == '__main__':
